@@ -41,7 +41,7 @@
 
     $sql = 'BEGIN GET_OPPORTUNITY_DETAILS(:v_id_number,:entriesd); END;';
     $stmt = oci_parse($conn, $sql);
-    $id_number = 1001;
+    $id_number = -9999;
     oci_bind_by_name($stmt,':v_id_number',$id_number,32);
     // Create a new cursor resource
     $entriesd = oci_new_cursor($conn);
@@ -165,7 +165,7 @@
                             echo "<button class='btn mybutton' data-id='".$entryt[0]."'><span class=''>".$entryt[1]."</span></button>";
                         }
                     ?>
-                    <button class='btn mybutton' data-id='all'><span class=''>Show All</span></button>
+                    <button class='btn mybutton' data-id='-9999'><span class=''>Show All</span></button>
                 </div>
                 <div class="col-md-12 mt-5">
                 <table class="table table-bordered">
@@ -188,7 +188,7 @@
                     $count = 0;
                     while ($row = oci_fetch_array($entriesd))
                     {?>
-                    <tr class="row-tr" id="row-<?php echo $row['0'];?>">
+                    <tr class="row-tr row-<?php echo $row['0'];?>">
                         <td><?php echo $row['0'];?></td>
                         <td><?php echo $row['1'];?></td>
                         <td><?php echo $row['2'];?></td>
@@ -215,10 +215,10 @@
             $(".mybutton").click(function(e)
             {
                 var id = $(this).attr("data-id");
-                if(id != "all")
+                if(id != "-9999")
                 {
                     $(".row-tr").hide();
-                    $("#row-"+id).show();
+                    $(".row-"+id).show();
                 }
                 else{
                     $(".row-tr").show();
